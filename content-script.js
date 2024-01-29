@@ -10,7 +10,6 @@ function createModalWithScreenshot(screenshotData) {
     </div>
   `;
 
-  // Apply styles using CSS
   const styles = `
     #modal-overlay {
       position: fixed;
@@ -59,13 +58,12 @@ function createModalWithScreenshot(screenshotData) {
   styleElement.textContent = styles;
   document.head.appendChild(styleElement);
 
-  // Close modal when close button is clicked
+  // Close modal btn
   const closeBtn = modalContainer.querySelector("#close-btn");
   closeBtn.addEventListener("click", () => {
     document.body.removeChild(modalContainer);
   });
 
-  // Append modal to the body
   document.body.appendChild(modalContainer);
 }
 
