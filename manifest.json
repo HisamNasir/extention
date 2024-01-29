@@ -1,0 +1,16 @@
+{
+  "name": "MV3 Migration - content script example",
+  "version": "0.1",
+  "manifest_version": 3,
+  "permissions": ["scripting", "activeTab", "contextMenus"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "icons": {
+    "48": "icon.png",
+    "128": "icon.png"
+  }
+}
