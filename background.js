@@ -5,14 +5,27 @@ chrome.runtime.onInstalled.addListener(() => {
     id: "clickMeContextMenu",
   });
 });
+
 chrome.contextMenus.onClicked.addListener((info, tab) => {
   if (info.menuItemId === "clickMeContextMenu") {
     injectFileScript(tab.id);
   }
 });
+
 async function injectFileScript(tabId) {
   chrome.scripting.executeScript({
     target: { tabId: tabId },
     files: ["content-script.js"],
   });
 }
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.action === "captureScreenshot") {
+    chrome.tabs.captureVisibleTab({ format: "png" }, (dataUrl) => {
+      chrome.tabs.sendMessage(sender.tab.id, {
+        action: "showScreenshotModal",
+        screenshotData: dataUrl,
+      });
+    });
+  }
+});
