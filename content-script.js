@@ -14,7 +14,7 @@ function createModal() {
   modalContainer.style.gap = "10px";
   modalContainer.style.width = "300px";
   const modalContent = document.createElement("div");
-  modalContent.textContent = "This is a modal!";
+  modalContent.textContent = "This is a modal! ";
   const iconWrapper = document.createElement("div");
   iconWrapper.className = "rotate-icon";
   iconWrapper.style.width = "20px";
