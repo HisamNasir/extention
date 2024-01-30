@@ -8,25 +8,29 @@ chrome.runtime.onInstalled.addListener(() => {
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {
   if (info.menuItemId === "clickMeContextMenu") {
-    // Trigger screenshot capture only when "Click Me" is clicked
-    chrome.tabs.captureVisibleTab({ format: "png" }, (dataUrl) => {
-      const screenshotData = dataUrl;
-      // Send the screenshot data to the content script
-      chrome.tabs.sendMessage(tab.id, {
-        action: "showScreenshotModal",
-        screenshotData: screenshotData,
-      });
-    });
+    injectFileScript(tab.id);
   }
 });
+
+async function injectFileScript(tabId) {
+  chrome.scripting.executeScript({
+    target: { tabId: tabId },
+    files: ["content-script.js"],
+  });
+}
+
+let screenshotData = null;
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "captureScreenshot") {
     chrome.tabs.captureVisibleTab({ format: "png" }, (dataUrl) => {
+      screenshotData = dataUrl;
       chrome.tabs.sendMessage(sender.tab.id, {
         action: "showScreenshotModal",
         screenshotData: dataUrl,
       });
     });
+  } else if (request.action === "replaceScreenshotData") {
+    screenshotData = request.screenshotData;
   }
 });
