@@ -9,7 +9,6 @@ function createModalWithScreenshot(screenshotData) {
       </div>
     </div>
   `;
-
   const styles = `
     #modal-overlay {
       position: fixed;
@@ -23,7 +22,21 @@ function createModalWithScreenshot(screenshotData) {
       align-items: center;
       z-index: 9999;
     }
+    #modal-text {
+      margin-bottom: 10px;
+    }
 
+    #screenshot-image {
+      max-width: 100%;
+      height: auto;
+    }
+    #close-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      padding: 5px;
+      cursor: pointer;
+    }
     #modal-content {
       background-color: white;
       padding: 20px;
@@ -36,42 +49,22 @@ function createModalWithScreenshot(screenshotData) {
       max-height: 70vh;
       overflow: auto;
     }
-
-    #close-btn {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      padding: 5px;
-      cursor: pointer;
-    }
-
-    #modal-text {
-      margin-bottom: 10px;
-    }
-
-    #screenshot-image {
-      max-width: 100%;
-      height: auto;
-    }
   `;
   const styleElement = document.createElement("style");
   styleElement.textContent = styles;
   document.head.appendChild(styleElement);
-
   // Close modal btn
   const closeBtn = modalContainer.querySelector("#close-btn");
   closeBtn.addEventListener("click", () => {
     document.body.removeChild(modalContainer);
+    chrome.runtime.sendMessage({ action: "openImageDisplayTab" });
   });
-
   document.body.appendChild(modalContainer);
 }
-
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "showScreenshotModal") {
     createModalWithScreenshot(request.screenshotData);
   }
 });
 
-// Triggering screenshot capture
 chrome.runtime.sendMessage({ action: "captureScreenshot" });
