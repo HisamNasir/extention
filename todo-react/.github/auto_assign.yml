@@ -1,0 +1,11 @@
+addReviewers: true
+addAssignees: author
+
+reviewers:
+  - Jonghakseo
+
+numberOfReviewers: 0
+
+filterLabels:
+  exclude:
+    - dependencies

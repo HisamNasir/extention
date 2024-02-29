@@ -1,0 +1,10 @@
+{
+  "extensionDescription": {
+    "description": "Extension description",
+    "message": "Todo"
+  },
+  "extensionName": {
+    "description": "Extension name",
+    "message": "Todo"
+  }
+}
